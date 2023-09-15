@@ -1,4 +1,4 @@
-package com.login.jwt.security;
+package com.roblog.blog.security;
 
 import lombok.AllArgsConstructor;
 import org.springframework.context.annotation.Bean;

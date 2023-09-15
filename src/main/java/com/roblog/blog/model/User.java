@@ -1,4 +1,4 @@
-package com.login.jwt.model;
+package com.roblog.blog.model;
 
 import jakarta.persistence.*;
 import lombok.Data;

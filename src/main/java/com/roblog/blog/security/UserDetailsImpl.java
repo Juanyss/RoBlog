@@ -1,6 +1,6 @@
-package com.login.jwt.security;
+package com.roblog.blog.security;
 
-import com.login.jwt.model.User;
+import com.roblog.blog.model.User;
 import lombok.AllArgsConstructor;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;

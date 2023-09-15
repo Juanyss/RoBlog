@@ -1,7 +1,7 @@
-package com.login.jwt.security;
+package com.roblog.blog.security;
 
-import com.login.jwt.model.User;
-import com.login.jwt.repository.UserRepository;
+import com.roblog.blog.model.User;
+import com.roblog.blog.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.context.event.ApplicationReadyEvent;
 import org.springframework.context.event.EventListener;

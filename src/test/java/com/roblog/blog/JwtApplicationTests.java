@@ -1,4 +1,4 @@
-package com.login.jwt;
+package com.roblog.blog;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
