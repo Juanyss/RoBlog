@@ -1,6 +1,7 @@
 package com.roblog.blog.security;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.roblog.blog.model.User;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
@@ -12,6 +13,8 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 
 import java.io.IOException;
 import java.util.Collections;
+import java.util.HashMap;
+import java.util.Map;
 
 public class JWTAuthenticationFilter extends UsernamePasswordAuthenticationFilter {
 
@@ -44,9 +47,28 @@ public class JWTAuthenticationFilter extends UsernamePasswordAuthenticationFilte
         UserDetailsImpl userDetails = (UserDetailsImpl) authResult.getPrincipal();
         String token = TokenUtils.createToken(userDetails.getName(),userDetails.getUsername());
 
-        response.addHeader("Authorization", "Bearer " + token);
-        response.getWriter().flush();
+        Map<String, Object> body = new HashMap<String, Object>();
+        body.put("message", "Succecfull login");
+        body.put("token", token);
+        body.put("user", ((UserDetailsImpl) authResult.getPrincipal()).getUsername());
+        response.getWriter().write(new ObjectMapper().writeValueAsString(body));
+        response.setStatus(200);
+        response.setContentType("application/json;charset=UTF-8");
 
-        super.successfulAuthentication(request, response, chain, authResult);
+        response.addHeader("Authorization", "Bearer " + token);
+    }
+
+    @Override
+    protected void unsuccessfulAuthentication(HttpServletRequest request, HttpServletResponse response,
+                                              AuthenticationException failed) throws IOException, ServletException {
+
+        Map<String, Object> body = new HashMap<String, Object>();
+        body.put("message", "Authentication error: username o password invalid");
+        body.put("error", failed.getMessage());
+
+        response.getWriter().write(new ObjectMapper().writeValueAsString(body));
+        response.setStatus(401);
+
+        response.setContentType("application/json;charset=UTF-8");
     }
 }
