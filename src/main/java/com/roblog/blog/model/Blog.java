@@ -1,22 +1,38 @@
 package com.roblog.blog.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import jakarta.persistence.*;
-import lombok.Data;
+import com.fasterxml.jackson.annotation.JsonInclude;
+import com.sun.istack.internal.NotNull;
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+import jakarta.persistence.Temporal;
+import jakarta.persistence.TemporalType;
 
-import java.time.Instant;
+
+import java.io.Serializable;
 import java.util.Date;
 
 @Entity
-public class User {
+@JsonInclude(JsonInclude.Include.NON_NULL)
+public class Blog implements Serializable {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "iduser")
+    @Column(name = "idblog")
 
     private Integer id;
-    private String name;
-    private String email;
-    private String password;
+
+    @NotNull
+    private String title;
+
+    @NotNull
+    private String body;
+
+    @NotNull
+    private String image;
 
     @Column(name = "create_at")
     @Temporal(TemporalType.TIMESTAMP)
@@ -33,7 +49,7 @@ public class User {
     @JsonIgnore
     private Date deleteAt;
 
-    public User() {
+    public Blog() {
     }
 
     public Integer getId() {
@@ -44,28 +60,28 @@ public class User {
         this.id = id;
     }
 
-    public String getName() {
-        return name;
+    public String getTitle() {
+        return title;
     }
 
-    public void setName(String name) {
-        this.name = name;
+    public void setTitle(String title) {
+        this.title = title;
     }
 
-    public String getEmail() {
-        return email;
+    public String getBody() {
+        return body;
     }
 
-    public void setEmail(String email) {
-        this.email = email;
+    public void setBody(String body) {
+        this.body = body;
     }
 
-    public String getPassword() {
-        return password;
+    public String getImage() {
+        return image;
     }
 
-    public void setPassword(String password) {
-        this.password = password;
+    public void setImage(String image) {
+        this.image = image;
     }
 
     public Date getCreateAt() {

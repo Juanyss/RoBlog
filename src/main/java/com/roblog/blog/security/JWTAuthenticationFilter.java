@@ -1,7 +1,6 @@
 package com.roblog.blog.security;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.roblog.blog.model.User;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
@@ -13,10 +12,13 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 
 import java.io.IOException;
 import java.util.Collections;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
 public class JWTAuthenticationFilter extends UsernamePasswordAuthenticationFilter {
+
+    private final static Long ACCESS_TOKEN_VALIDITY_TIME = 3600L;
 
     @Override
     public Authentication attemptAuthentication(HttpServletRequest request,
@@ -47,9 +49,12 @@ public class JWTAuthenticationFilter extends UsernamePasswordAuthenticationFilte
         UserDetailsImpl userDetails = (UserDetailsImpl) authResult.getPrincipal();
         String token = TokenUtils.createToken(userDetails.getName(),userDetails.getUsername());
 
+        Date expirationDate = new Date(System.currentTimeMillis() + (ACCESS_TOKEN_VALIDITY_TIME * 1000));
+
         Map<String, Object> body = new HashMap<String, Object>();
         body.put("message", "Succecfull login");
         body.put("token", token);
+        body.put("expiresAt", expirationDate);
         body.put("user", ((UserDetailsImpl) authResult.getPrincipal()).getUsername());
         response.getWriter().write(new ObjectMapper().writeValueAsString(body));
         response.setStatus(200);

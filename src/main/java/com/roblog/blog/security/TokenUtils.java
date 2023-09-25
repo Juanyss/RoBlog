@@ -15,12 +15,13 @@ import java.util.Map;
 
 public class TokenUtils {
 
-    //For convention it has to be long, here it says "admin"
+    //For convention, it has to be long, here it says "admin"
     private final static String ACCESS_TOKEN_SECRET = "$2a$10$R/XVegzsScrwOnkuyPHUbeFe5HzGc9Zbf.KQAP8iDFC1MHC6DDUqW";
-    private final static Long ACCESS_TOKEN_VALIDITY_TIME = 2_592_000L;
+    private final static Long ACCESS_TOKEN_VALIDITY_TIME = 3600L; // 3600L = 1 hour
 
     public static String createToken(String name, String email) {
         long expirationTime = ACCESS_TOKEN_VALIDITY_TIME * 1000;
+
         Date expirationDate = new Date(System.currentTimeMillis() + expirationTime);
 
         Map<String, Object> extra = new HashMap<>();
